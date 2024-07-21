@@ -1,6 +1,7 @@
 package com.jdev.TaskManagementSystem.model;
 
 
+import com.jdev.TaskManagementSystem.dto.UserDTO;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -13,8 +14,11 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+    @Column(unique = true)
     private String email;
+    @Column(nullable = false)
     private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -25,6 +29,12 @@ public class User {
         this.name = name;
         this.email = email;
         this.password = password;
+    }
+
+    public User(UserDTO data) {
+        this.name = data.name();
+        this.email = data.email();
+        this.password = data.password();
     }
 
     public User() {
