@@ -3,6 +3,7 @@ package com.jdev.TaskManagementSystem.controllers;
 import com.jdev.TaskManagementSystem.dto.UserDTO;
 import com.jdev.TaskManagementSystem.model.User;
 import com.jdev.TaskManagementSystem.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getUserById(@PathVariable(value = "id") Long id){
+    public ResponseEntity<Object> getUserById(@PathVariable(value = "id") @Valid Long id){
         Optional<User> userOptional = userService.findUserById(id);
         if(!userOptional.isPresent()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
@@ -33,8 +34,14 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> addUser(@RequestBody UserDTO user){
+    public ResponseEntity<User> addUser(@RequestBody @Valid UserDTO user){
         User newUser = userService.createUser(user);
         return new ResponseEntity<>(newUser, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
+        userService.deleteUser(userId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
