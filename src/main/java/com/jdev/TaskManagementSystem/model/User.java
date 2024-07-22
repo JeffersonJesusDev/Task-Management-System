@@ -1,6 +1,7 @@
 package com.jdev.TaskManagementSystem.model;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.jdev.TaskManagementSystem.dto.UserDTO;
 import jakarta.persistence.*;
 
@@ -22,7 +23,8 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Task> task = new ArrayList<Task>();
+    @JsonManagedReference
+    private List<Task> task;
 
     public User(Long id, String name,String email, String password) {
         this.id = id;
