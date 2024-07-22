@@ -1,5 +1,7 @@
 package com.jdev.TaskManagementSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.jdev.TaskManagementSystem.dto.TaskDTO;
 import com.jdev.TaskManagementSystem.enums.Status;
 import jakarta.persistence.*;
 
@@ -16,7 +18,8 @@ public class Task {
     @Enumerated(EnumType.STRING)
     private Status status;
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference
     private User user;
 
     public Task(Long id, String taskName, Status status, User user) {
@@ -25,6 +28,11 @@ public class Task {
         this.status = status;
         this.user = user;
     }
+    public Task(TaskDTO data) {
+        this.taskName = data.taskName();
+        this.status = data.status();
+    }
+
     public Task() {
     }
 
