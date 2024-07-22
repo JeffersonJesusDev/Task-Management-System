@@ -26,10 +26,16 @@ public class TaskController {
 
     @PostMapping("/users/{userId}")
     public ResponseEntity<Task> createTaskById(@PathVariable Long userId, @RequestBody TaskDTO taskDTO) throws Exception {
-        Task task = taskService.createTaskForUser(userId, taskDTO.taskName(), taskDTO.status());
+        Task task = taskService.createTaskForUser(userId, taskDTO.taskName(), taskDTO.status()).getBody();
         return ResponseEntity.ok(task);
     }
 
+    @GetMapping("/users/{userId}/tasks")
+    public ResponseEntity<List<Task>> findTaskByUserId(@PathVariable Long userId) throws Exception {
+        List<Task> newtask = taskService.findTasksByUserId(userId);
+        return new ResponseEntity<>(newtask, HttpStatus.OK);
+
+    }
 
     @GetMapping
     public ResponseEntity<List<Task>> getTasks(){

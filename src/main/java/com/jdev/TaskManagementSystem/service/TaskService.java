@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -51,7 +52,7 @@ public class TaskService {
                 .orElseThrow(() -> new RuntimeException("Task not found"));
     }
 
-    public Task createTaskForUser(Long userId, String taskName, Status status) throws Exception {
+    public ResponseEntity<Task> createTaskForUser(Long userId, String taskName, Status status) throws Exception {
         Optional<User> userOptional = userRepository.findById(userId);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
@@ -62,7 +63,20 @@ public class TaskService {
             user.getTask().add(task);
             taskRepository.save(task);
             userRepository.save(user);
-            return task;
+            return ResponseEntity.ok(task);
+        } else {
+            throw new Exception("User not found");
+        }
+    }
+
+    public List<Task> findTasksByUserId(@PathVariable Long userId) throws Exception {
+        if(userId == null){
+            throw new Exception("User ID must not be null");
+        }
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent()){
+            User user = userOptional.get();
+            return taskRepository.findByUserId(user.getId());
         } else {
             throw new Exception("User not found");
         }
