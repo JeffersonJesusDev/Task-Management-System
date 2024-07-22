@@ -4,6 +4,7 @@ package com.jdev.TaskManagementSystem.model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.jdev.TaskManagementSystem.dto.UserDTO;
 import jakarta.persistence.*;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,6 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     @Column(unique = true)
     private String email;
