@@ -4,7 +4,6 @@ package com.jdev.TaskManagementSystem.model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.jdev.TaskManagementSystem.dto.UserDTO;
 import jakarta.persistence.*;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
