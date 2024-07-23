@@ -22,9 +22,9 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<Task> task;
+    private List<Task> task = new ArrayList<>();
 
     public User(Long id, String name,String email, String password) {
         this.id = id;

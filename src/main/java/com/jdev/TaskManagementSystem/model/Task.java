@@ -1,19 +1,15 @@
 package com.jdev.TaskManagementSystem.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.jdev.TaskManagementSystem.dto.TaskDTO;
 import com.jdev.TaskManagementSystem.enums.Status;
 import jakarta.persistence.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "tasks")
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long taskId;
     private String taskName;
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -22,26 +18,22 @@ public class Task {
     @JsonBackReference
     private User user;
 
-    public Task(Long id, String taskName, Status status, User user) {
-        this.id = id;
+    public Task(Long taskId, String taskName, Status status, User user) {
+        this.taskId = taskId;
         this.taskName = taskName;
         this.status = status;
         this.user = user;
-    }
-    public Task(TaskDTO data) {
-        this.taskName = data.taskName();
-        this.status = data.status();
     }
 
     public Task() {
     }
 
-    public Long getId() {
-        return id;
+    public Long getTaskId() {
+        return taskId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setTaskId(Long id) {
+        this.taskId = id;
     }
 
     public String getTaskName() {
