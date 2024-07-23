@@ -1,6 +1,5 @@
 package com.jdev.TaskManagementSystem.controllers;
 import com.jdev.TaskManagementSystem.dto.TaskDTO;
-import com.jdev.TaskManagementSystem.enums.Status;
 import com.jdev.TaskManagementSystem.model.Task;
 import com.jdev.TaskManagementSystem.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +33,17 @@ public class TaskController {
     public ResponseEntity<List<Task>> findTaskByUserId(@PathVariable Long userId) throws Exception {
         List<Task> newtask = taskService.findTasksByUserId(userId);
         return new ResponseEntity<>(newtask, HttpStatus.OK);
-
+    }
+    @DeleteMapping("/{taskId}")
+    public ResponseEntity<Void> deleteTaskById(@PathVariable Long taskId) {
+        taskService.deleteTaskById(taskId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<List<Task>> getTasks(){
-        return new ResponseEntity<>(taskService.getTasks(), HttpStatus.OK);
+    public ResponseEntity<List<Task>> getAllTasks(){
+        return this.taskService.getAllTasks();
     }
+
 
 }
