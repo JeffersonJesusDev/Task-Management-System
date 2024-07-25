@@ -45,5 +45,11 @@ public class TaskController {
         return this.taskService.getAllTasks();
     }
 
+    @PutMapping("/{taskId}")
+    public ResponseEntity<Task> updateTask (@PathVariable @RequestBody Long taskId, TaskDTO data) throws Exception {
+        taskService.updateTask(taskId, data);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 }

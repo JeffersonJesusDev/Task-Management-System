@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -109,7 +110,7 @@ public class TaskService {
 //    }
 
     @Transactional
-    public ResponseEntity<Void> deleteTaskById(Long taskId) {
+    public ResponseEntity<Void> deleteTaskById(@PathVariable Long taskId) {
         logger.info("Trying to delete task with id: " + taskId);
         Optional<Task> taskOptional = taskRepository.findById(taskId);
         if (taskOptional.isPresent()) {
@@ -121,5 +122,20 @@ public class TaskService {
             logger.warning("Task not found.");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @Transactional
+    public ResponseEntity<Task> updateTask(Long taskId, TaskDTO data) throws Exception {
+        Optional<Task> taskOptional = taskRepository.findById(taskId);
+        if (taskOptional.isPresent()) {
+            Task upTask = taskOptional.get();
+            upTask.setTaskName(data.taskName());
+            upTask.setStatus(data.status());
+            taskRepository.save(upTask);
+            return new ResponseEntity<>(upTask, HttpStatus.OK);
+        } else {
+            throw new Exception("Task not found for update");
+        }
+
     }
 }
