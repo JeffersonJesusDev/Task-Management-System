@@ -4,6 +4,4 @@ import com.jdev.TaskManagementSystem.enums.Status;
 
 
 public record TaskDTO(String taskName, Status status) {
-
-
 }

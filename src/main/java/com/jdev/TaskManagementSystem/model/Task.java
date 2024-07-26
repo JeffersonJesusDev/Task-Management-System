@@ -1,6 +1,7 @@
 package com.jdev.TaskManagementSystem.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.jdev.TaskManagementSystem.dto.TaskDTO;
 import com.jdev.TaskManagementSystem.enums.Status;
 import jakarta.persistence.*;
 
@@ -23,6 +24,11 @@ public class Task {
         this.taskName = taskName;
         this.status = status;
         this.user = user;
+    }
+
+    public Task(TaskDTO data){
+        this.taskName = data.taskName();
+        this.status = data.status();
     }
 
     public Task() {
