@@ -48,4 +48,18 @@ public class UserService {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    public ResponseEntity<User> updateUserById(Long userId, UserDTO userDTO) throws Exception {
+        Optional<User> userOptionional = userRepository.findById(userId);
+        if (userOptionional.isPresent()){
+            User newUser = userOptionional.get();
+            newUser.setName(userDTO.name());
+            newUser.setEmail(userDTO.email());
+            newUser.setPassword(userDTO.password());
+            userRepository.save(newUser);
+            return new ResponseEntity<>(newUser, HttpStatus.OK);
+        } else {
+            throw new Exception("User not found");
+        }
+    }
 }

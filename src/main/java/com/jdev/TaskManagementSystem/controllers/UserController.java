@@ -44,4 +44,10 @@ public class UserController {
         userService.deleteUser(userId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PutMapping("/{userId}")
+    public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody UserDTO userDTO) throws Exception {
+        userService.updateUserById(userId, userDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
